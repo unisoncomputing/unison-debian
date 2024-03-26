@@ -1,0 +1,3 @@
+#!/bin/sh
+
+UCM_WEB_UI=/usr/share/unisonweb/ui /usr/lib/unisonweb/ucm 

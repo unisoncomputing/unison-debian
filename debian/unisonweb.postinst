@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -eu
+
+if [ "$1" = 'configure' ]; then
+    if raco pkg show -u | grep -q unison ; then
+        raco pkg update --auto /usr/lib/unisonweb/racket/unison.zip
+    else
+        raco pkg install --auto /usr/lib/unisonweb/racket/unison.zip
+    fi
+fi

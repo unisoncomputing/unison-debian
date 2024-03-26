@@ -1,0 +1,5 @@
+ucm usr/bin/
+build/ucm usr/lib/unisonweb/
+build/racket/unison.zip usr/lib/unisonweb/racket/
+build/ui usr/share/unisonweb/
+build/runtime/bin/unison-runtime usr/lib/unisonweb/

@@ -1,0 +1,18 @@
+#!/usr/bin/make -f
+
+# UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux.tar.gz
+UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/jit-release-build/ucm-linux.tar.gz
+
+%:
+	dh $@
+
+override_dh_clean:
+	dh_clean
+	rm -rf build
+
+override_dh_auto_build:
+	mkdir -p build
+	wget "${UNISON_RELEASE}" -O- | tar xvzf - -C build
+
+override_dh_install:
+	dh_install
