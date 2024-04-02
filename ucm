@@ -1,3 +1,3 @@
 #!/bin/sh
 
-UCM_WEB_UI=/usr/share/unisonweb/ui /usr/lib/unisonweb/ucm 
+UCM_WEB_UI=/usr/share/unisonweb/ui /usr/lib/unisonweb/ucm --runtime-path /usr/lib/unisonweb/unison-runtime "$@"
