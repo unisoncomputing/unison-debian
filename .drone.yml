@@ -1,0 +1,15 @@
+kind: pipeline
+type: docker
+name: release
+
+trigger:
+  ref:
+    - refs/heads/trunk
+    - refs/tags/**
+
+steps:
+  - name: build
+    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/docker-builder:24
+    
+    commands:
+      - make upload
