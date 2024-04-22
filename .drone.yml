@@ -4,7 +4,8 @@ name: release
 
 trigger:
   ref:
-    - refs/heads/trunk
+    - refs/heads/unstable
+    - refs/heads/stable
     - refs/tags/**
 
 steps:
