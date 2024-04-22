@@ -6,7 +6,7 @@ This project packages the (Unison Code Manager)[https://unison-lang.org/] for th
 1. Update the version in the `debian/changelog` file. The easiest way to do this is to use the `dch` command from the `devscripts` package. For example:
 
 ```
-EMAIL=stew@example.com dch -v 0.51.0-1 "New upstream release"
+EMAIL=stew@unison.cloud dch -v 0.51.0-1 "New upstream release"
 ```
 
 which will create a new entry in debian/changelog that starts with something like this:
