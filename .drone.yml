@@ -10,7 +10,7 @@ trigger:
 
 steps:
   - name: build
-    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/docker-builder:24
+    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:47
     
     commands:
       - make upload
