@@ -1,3 +1,9 @@
+unisonweb (0.5.20~trunk+2024051601) UNRELEASED; urgency=medium
+
+  * new version 
+
+ -- Stew O'Connor <stew@unison.cloud>  Thu, 16 May 2024 10:52:50 -0700
+
 unisonweb (0.5.20~trunk+2024041702) unstable; urgency=low
 
   * fix control
