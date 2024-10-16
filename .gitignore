@@ -1,7 +1,12 @@
 build
 debian/unisonweb
+debian/files
 .#*
 *~
 *.debhelper*
 *-stamp
 .envrc
+.unisonHistory
+
+
+
