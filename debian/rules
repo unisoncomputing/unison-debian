@@ -4,7 +4,7 @@ UNISON_RELEASE=https://github.com/unisonweb/unison/releases/download/trunk-build
 	dh $@
 
 override_dh_clean:
-	rm -r build
+	rm -rf build
 	dh_clean
 
 override_dh_auto_build:
