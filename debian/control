@@ -2,7 +2,7 @@ Source: unisonweb
 Section: devel
 Priority: optional
 Maintainer: Stew O'Connor <stew@unison.cloud>
-Build-Depends: debhelper (>=11~), wget
+Build-Depends: debhelper (>=11~), wget, ca-certificates
 Standards-Version: 4.1.4
 Homepage: https://unisonweb.org
 Vcs-Browser: https://github.com/unisonweb/unison
@@ -14,4 +14,3 @@ Section: devel
 Multi-Arch: foreign
 Depends: ${misc:Depends}, ${shlibs:Depends}, libncurses6, libtinfo6, less, locales, racket, racket-doc
 Description: A functional programming language
-
