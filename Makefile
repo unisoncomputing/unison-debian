@@ -1,26 +1,47 @@
 UNISON_NEXT_RELEASE=0.5.28
-UNISON_TRUNK:=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux.tar.gz
+UNISON_CURRENT_RELEASE=0.5.27
+UNISON_TRUNK=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux-x64.tar.gz
+UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/release%2F$(UNISON_CURRENT_RELEASE)/ucm-linux.tar.gz
 TRUNK_VERSION := $(UNISON_NEXT_RELEASE)~trunk+$(shell date '+%Y%m%d')
 
-DEBIAN_VERSION := $(shell dpkg-parsechangelog -S version)
+APTLY_URI := $(shell dig +short -t SRV aptly.service.us-west-2.consul.unison-lang.org | awk '{print "http://" $$4 ":" $$3}')
+
 SPACKAGE := $(shell dpkg-parsechangelog -S source)
-DIST := $(shell dpkg-parsechangelog -S distribution)
+DIST := bookworm
 ARCH := $(shell dpkg --print-architecture)
-CHANGES := ../$(SPACKAGE)_$(DEBIAN_VERSION)_$(ARCH).changes
+
+TRUNK_DEB := ../$(SPACKAGE)_$(TRUNK_VERSION)_$(ARCH).deb
+RELEASE_DEB := ../$(SPACKAGE)_$(UNISON_CURRENT_RELEASE)_$(ARCH).deb
+CHANGES := ../$(SPACKAGE)_$(UNISON_CURRENT_RELEASE)_$(ARCH).changes
 
 $(CHANGES): debian/*
 	dpkg-buildpackage -rfakeroot -uc -us
 
 build: $(CHANGES)
 
-build-nightly:
-	dch -v $(TRUNK_VERSION) "Nightly build"
+v:
+	@echo $(APTLY_URI)
 
-upload: $(CHANGES)
-	if [ $(DIST) != "UNRELEASED" ]; then \
-		for f in $(shell dcmd $(CHANGES)); do \
-			aws s3 cp "$$f" s3://unison-debian-packages/$(DIST)/ ;\
-		 done ; \
-	fi \
+$(TRUNK_DEB):
+	wget -O ucm-linux.tar.gz $(UNISON_TRUNK)
+	dch -b --distribution bookworm -v $(TRUNK_VERSION) "Nightly build"
+	dpkg-buildpackage -rfakeroot -uc -us
 
-.PHONY: build upload build-nightly
+$(RELEASE_DEB):
+	wget -O ucm-linux.tar.gz $(UNISON_RELEASE)
+	dch -b --distribution bookworm -v $(UNISON_CURRENT_RELEASE) "Release build"
+	dpkg-buildpackage -rfakeroot -uc -us
+
+upload-trunk: $(TRUNK_DEB)
+	curl -X POST -F file=@$(TRUNK_DEB) $(APTLY_URI)/api/files/$(SPACKAGE)
+	curl -X POST $(APTLY_URI)/api/repos/nightly/file/$(SPACKAGE)
+	curl -X DELETE $(APTLY_URI)/api/publish//bookworm
+	curl -X POST -H 'Content-Type: application/json' -d '{"SourceKind":"local", "Sources":[{"Name": "nightly"}, {"Name": "release"}], "Origin":"Unison Computing"}' $(APTLY_URI)/api/publish
+
+upload-release: $(RELEASE_DEB)
+	curl -X POST -F file=@$(RELEASE_DEB) $(APTLY_URI)/api/files/$(SPACKAGE)
+	curl -X POST $(APTLY_URI)/api/repos/release/file/$(SPACKAGE)
+	curl -X DELETE $(APTLY_URI)/api/publish//bookworm
+	curl -X POST -H 'Content-Type: application/json' -d '{"SourceKind":"local", "Sources":[{"Name": "nightly"}, {"Name": "release"}], "Origin":"Unison Computing"}' $(APTLY_URI)/api/publish
+
+.PHONY: build upload-trunk v

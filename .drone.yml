@@ -4,7 +4,7 @@ name: release
 
 trigger:
   ref:
-    - refs/heads/unstable
+    - refs/heads/trunk
     - refs/heads/stable
     - refs/tags/**
 
@@ -13,4 +13,22 @@ steps:
     image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:49
     
     commands:
-      - make upload
+      - make upload-release
+
+---
+kind: pipeline
+type: docker
+name: daily-build
+
+trigger:
+  event:
+    - cron
+  cron:
+    - daily-build
+
+steps:
+  - name: build
+    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:49
+    
+    commands:
+      - make upload-trunk

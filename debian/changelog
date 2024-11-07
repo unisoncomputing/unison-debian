@@ -1,5 +1,19 @@
-unisonweb (0.5.28~trunk+20241015) UNRELEASED; urgency=low
+unisonweb (0.5.27) bookworm; urgency=medium
+
+  * Release build
+
+ -- Stew O'Connor <stew@unison.cloud>  Thu, 24 Oct 2024 17:30:55 -0700
+
+unisonweb (0.5.28~trunk+20241024) bookworm; urgency=medium
+
+  * Nightly build
+
+ -- Stew O'Connor <stew@unison.cloud>  Thu, 24 Oct 2024 16:06:03 -0700
+
+unisonweb (0.5.28~trunk+20241022) bookworm; urgency=low
 
   * adding github action
+  * Nightly build
+  * Nightly build
 
- -- Stew O'Connor <stew@unison.cloud>  Tue, 15 Oct 2024 16:29:14 -0700
+ -- Stew O'Connor <stew@unison.cloud>  Tue, 22 Oct 2024 14:03:24 -0700
