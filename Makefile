@@ -1,5 +1,5 @@
-UNISON_NEXT_RELEASE=0.5.28
-UNISON_CURRENT_RELEASE=0.5.27
+UNISON_NEXT_RELEASE=0.5.29
+UNISON_CURRENT_RELEASE=0.5.28
 UNISON_TRUNK=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux-x64.tar.gz
 UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/release%2F$(UNISON_CURRENT_RELEASE)/ucm-linux.tar.gz
 TRUNK_VERSION := $(UNISON_NEXT_RELEASE)~trunk+$(shell date '+%Y%m%d')
