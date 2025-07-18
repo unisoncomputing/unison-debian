@@ -12,5 +12,5 @@ Package: unisonweb
 Architecture: any
 Section: devel
 Multi-Arch: foreign
-Depends: ${misc:Depends}, ${shlibs:Depends}, libncurses6, libtinfo6, less, locales, racket, racket-doc
+Depends: ${misc:Depends}, ${shlibs:Depends}, libncurses6, libtinfo6, less, locales
 Description: A functional programming language
