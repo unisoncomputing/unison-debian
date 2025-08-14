@@ -1,6 +1,10 @@
 kind: pipeline
 type: docker
-name: release
+name: release-amd64
+
+platform:
+  os: linux
+  arch: amd64
 
 trigger:
   ref:
@@ -10,7 +14,29 @@ trigger:
 
 steps:
   - name: build
-    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:55
+    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:63
+    
+    commands:
+      - make upload-release
+
+---
+kind: pipeline
+type: docker
+name: release-arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+trigger:
+  ref:
+    - refs/heads/trunk
+    - refs/heads/stable
+    - refs/tags/**
+
+steps:
+  - name: build
+    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:63
     
     commands:
       - make upload-release
@@ -28,7 +54,7 @@ trigger:
 
 steps:
   - name: build
-    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:55
+    image: 324181518966.dkr.ecr.us-west-2.amazonaws.com/debian-builder:63
     
     commands:
       - make upload-trunk
