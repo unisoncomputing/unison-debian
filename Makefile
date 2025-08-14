@@ -1,14 +1,23 @@
 UNISON_NEXT_RELEASE=0.5.46
 UNISON_CURRENT_RELEASE=0.5.45
-UNISON_TRUNK=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux-x64.tar.gz
-UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/release%2F$(UNISON_CURRENT_RELEASE)/ucm-linux-x64.tar.gz
+ARCH := $(shell dpkg --print-architecture)
+
+ifeq "$(ARCH)" "arm64"
+  UNISON_TRUNK=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux-arm64.tar.gz
+  UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/release%2F$(UNISON_CURRENT_RELEASE)/ucm-linux-arm64.tar.gz
+else
+  UNISON_TRUNK=https://github.com/unisonweb/unison/releases/download/trunk-build/ucm-linux-x64.tar.gz
+  UNISON_RELEASE:=https://github.com/unisonweb/unison/releases/download/release%2F$(UNISON_CURRENT_RELEASE)/ucm-linux-x64.tar.gz
+endif
+
 TRUNK_VERSION := $(UNISON_NEXT_RELEASE)~trunk+$(shell date '+%Y%m%d')
 
 APTLY_URI := $(shell dig +short -t SRV aptly.service.us-west-2.consul.unison-lang.org | awk '{print "http://" $$4 ":" $$3}')
 
 SPACKAGE := $(shell dpkg-parsechangelog -S source)
 DIST := bookworm
-ARCH := $(shell dpkg --print-architecture)
+
+
 
 TRUNK_DEB := ../$(SPACKAGE)_$(TRUNK_VERSION)_$(ARCH).deb
 RELEASE_DEB := ../$(SPACKAGE)_$(UNISON_CURRENT_RELEASE)_$(ARCH).deb
