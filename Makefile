@@ -43,14 +43,12 @@ $(RELEASE_DEB):
 
 upload-trunk: $(TRUNK_DEB)
 	curl -X POST -F file=@$(TRUNK_DEB) $(APTLY_URI)/api/files/$(SPACKAGE)
-	curl -X POST $(APTLY_URI)/api/repos/nightly/file/$(SPACKAGE)
-	curl -X DELETE $(APTLY_URI)/api/publish//bookworm
-	curl -X POST -H 'Content-Type: application/json' -d '{"SourceKind":"local", "Sources":[{"Name": "nightly"}, {"Name": "release"}], "Origin":"Unison Computing"}' $(APTLY_URI)/api/publish
+	curl -X POST $(APTLY_URI)/api/repos/trixie-nightly/file/$(SPACKAGE)
+	curl -X PUT -H 'Content-Type: application/json' -d '{"ForceOverwrite": true}' $(APTLY_URI)/api/publish/trixie
 
 upload-release: $(RELEASE_DEB)
 	curl -X POST -F file=@$(RELEASE_DEB) $(APTLY_URI)/api/files/$(SPACKAGE)
-	curl -X POST $(APTLY_URI)/api/repos/release/file/$(SPACKAGE)
-	curl -X DELETE $(APTLY_URI)/api/publish//bookworm
-	curl -X POST -H 'Content-Type: application/json' -d '{"SourceKind":"local", "Sources":[{"Name": "nightly"}, {"Name": "release"}], "Origin":"Unison Computing"}' $(APTLY_URI)/api/publish
+	curl -X POST $(APTLY_URI)/api/repos/trixie-release/file/$(SPACKAGE)
+	curl -X PUT -H 'Content-Type: application/json' -d '{"ForceOverwrite": true}' $(APTLY_URI)/api/publish/trixie
 
 .PHONY: build upload-trunk v
