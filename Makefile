@@ -11,6 +11,7 @@ else
 endif
 
 TRUNK_VERSION := $(UNISON_NEXT_RELEASE)~trunk+$(shell date '+%Y%m%d')
+TRUNK_VERSION_URL := $(UNISON_NEXT_RELEASE)~trunk%2B$(shell date '+%Y%m%d')
 
 APTLY_URI := $(shell dig +short -t SRV aptly.service.us-west-2.consul.unison-lang.org | awk '{print "http://" $$4 ":" $$3}')
 
@@ -42,13 +43,13 @@ $(RELEASE_DEB):
 	dpkg-buildpackage -rfakeroot -uc -us
 
 upload-trunk: $(TRUNK_DEB)
-	curl -X POST -F file=@$(TRUNK_DEB) $(APTLY_URI)/api/files/$(SPACKAGE)
-	curl -X POST $(APTLY_URI)/api/repos/trixie-nightly/file/$(SPACKAGE)
+	curl -v -X POST -F "file=@$(TRUNK_DEB)" $(APTLY_URI)/api/files/$(SPACKAGE)
+	curl -X POST $(APTLY_URI)/api/repos/trixie-nightly/file/$(SPACKAGE)/$(SPACKAGE)_$(TRUNK_VERSION_URL)_$(ARCH).deb
 	curl -X PUT -H 'Content-Type: application/json' -d '{"ForceOverwrite": true}' $(APTLY_URI)/api/publish//trixie
 
 upload-release: $(RELEASE_DEB)
 	curl -X POST -F file=@$(RELEASE_DEB) $(APTLY_URI)/api/files/$(SPACKAGE)
-	curl -X POST $(APTLY_URI)/api/repos/trixie-release/file/$(SPACKAGE)
+	curl -X POST $(APTLY_URI)/api/repos/trixie-release/file/$(SPACKAGE)/$(SPACKAGE)_$(UNISON_CURRENT_RELEASE)_$(ARCH).deb
 	curl -X PUT -H 'Content-Type: application/json' -d '{"ForceOverwrite": true}' $(APTLY_URI)/api/publish//trixie
 
 .PHONY: build upload-trunk v
