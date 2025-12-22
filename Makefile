@@ -1,5 +1,5 @@
-UNISON_NEXT_RELEASE=1.0.1
-UNISON_CURRENT_RELEASE=1.0.0
+UNISON_NEXT_RELEASE=1.0.2
+UNISON_CURRENT_RELEASE=1.0.1
 ARCH := $(shell dpkg --print-architecture)
 
 ifeq "$(ARCH)" "arm64"
